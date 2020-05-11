@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import NumberWrapper from '../../common/NumberWrapper';
+import {requestContext} from '../../../contexts/request';
 import {genBaseStyle} from '../../../utils/consts/theme';
 import {DRAFT} from '../../../utils/consts/Route';
 const useStyles = makeStyles(theme => ({
@@ -26,6 +27,15 @@ const useStyles = makeStyles(theme => ({
 }));
 const AddChapter = () => {
   const classes = useStyles({});
+  const {Draft} = useContext(requestContext);
+  const [num_drafts, setNumDrafts] = useState(0);
+  useEffect(() => {
+    Draft.getTotalNum().then((data: any) => {
+      if (data && data.count) {
+        setNumDrafts(Number.parseInt(data.count));
+      }
+    });
+  }, []);
   return (
     <a
       href={DRAFT}
@@ -37,7 +47,7 @@ const AddChapter = () => {
         <DraftsIcon classes={{root: classes.customDraftIcon}} />
         <div>我的草稿</div>
       </div>
-      <NumberWrapper number={6} />
+      <NumberWrapper number={num_drafts || 0} />
     </a>
   );
 };

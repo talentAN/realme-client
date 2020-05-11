@@ -7,6 +7,7 @@ enum Type {
   Delete = 'delete',
   Query = 'query',
   Publish = 'publish',
+  Count = 'count',
 }
 const genDraftReq = (request: AxiosInstance) => {
   const url = URL.DRAFT;
@@ -29,7 +30,11 @@ const genDraftReq = (request: AxiosInstance) => {
     const res = await request.post(url, {type: Type.Publish, id});
     return res && res.data && res.data.data;
   };
-  return {add, update, del, query, publish};
+  const getTotalNum = async () => {
+    const res = await request.post(url, {type: Type.Count});
+    return res && res.data && res.data.data;
+  };
+  return {add, update, del, query, publish, getTotalNum};
 };
 
 export default genDraftReq;
