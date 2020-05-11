@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[27],{"38SA":function(t,e,i){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.NavWidth="1032px",e.NavHeight="48px",e.LandingContainerMinWidth="1032px",e.ChapterWidth="694px",e.StickWidth="296px",e.PopOverRootWidth="132px",e.PopOverElementHeight="36px",e.WriteEditorWidth="660px"}}]);
-//# sourceMappingURL=DraftEditorPage~DraftsPage~LandingPage~main.a31aa6f06cc37063d3c9.js.map

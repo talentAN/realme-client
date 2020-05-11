@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/utils/helpers/user.ts"],"names":["isGuest","user","id"],"mappings":"6IAEa,EAAAA,QAAU,SAACC,GAAe,MAAY,UAAZA,EAAKC","file":"DraftsPage~LandingPage~LoginPage~main.03b554ba7dcd3213e6d5.js","sourcesContent":["import {User} from '../../types';\n\nexport const isGuest = (user: User) => user.id === 'guest';\n"],"sourceRoot":""}
