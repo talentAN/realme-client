@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[61],[],[["0B6I",23,14,0,20,18,16,19,17,21,1,2,3,4,5,7,8,9,10,11,12,13,6,15,22,25,26,24,27,28,30,45]]]);
+//# sourceMappingURL=DraftsPage.03cd3a21ecca34106c1e.js.map

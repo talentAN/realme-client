@@ -1,0 +1,9 @@
+export const ROOT = '/';
+export const LOGIN = '/login';
+export const REGISTER = '/register';
+export const ABOUT = '/about';
+export const HOTS = '/hots';
+export const EXPLORE = '/explore';
+export const DRAFT = '/draft';
+export const WRITE = '/write';
+export const CHAPTER = '/chapter';
