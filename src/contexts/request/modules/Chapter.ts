@@ -12,6 +12,7 @@ export enum Type {
   CancelLike = 'CancelLike',
   Collect = 'Collect',
   CancelCollect = 'CancelCollect',
+  Count = 'Count',
 }
 
 export type ListParams = {
@@ -51,7 +52,22 @@ const genChapterReq = (request: AxiosInstance) => {
   const cancelCollect = async (chapterID: string) => {
     return await request.post(url, {type: Type.CancelCollect, id: chapterID});
   };
-  return {add, queryList, queryItem, hug, cancelHug, like, cancelLike, collect, cancelCollect};
+  const getTotalCollectNum = async () => {
+    const res = await request.post(url, {type: Type.Count});
+    return res && res.data && res.data.data;
+  };
+  return {
+    add,
+    queryList,
+    queryItem,
+    hug,
+    cancelHug,
+    like,
+    cancelLike,
+    collect,
+    cancelCollect,
+    getTotalCollectNum,
+  };
 };
 
 export default genChapterReq;

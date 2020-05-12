@@ -1,16 +1,17 @@
-import React, {useContext} from 'react';
+import React, {useContext, Fragment} from 'react';
 import {rootContext} from '../../contexts/RootContext';
+import {requestContext} from '../../contexts/request';
 import {makeStyles} from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import {StickWidth} from '../../utils/Layout';
-import NumberWrapper from '../common/NumberWrapper';
-import {StickNavList} from '../../utils/consts/PageConfig';
+import QuickNav from './QuickNav';
 import {genBaseStyle} from '../../utils/consts/theme';
 import {isGuest} from '../../utils/helpers/user';
+import {CollectSvg, QuestionSvg, InvatisionSvg, ServiceSvg} from '../../utils/Svg';
 
 const NavList = () => {
   const {user} = useContext(rootContext);
+  const {Chapter} = useContext(requestContext);
   const classes = makeStyles(theme => ({
     ...genBaseStyle(theme),
     root: {
@@ -38,39 +39,49 @@ const NavList = () => {
       height: '18px',
       marginRight: '10px',
     },
-    navItemNum: {
-      width: '50px',
-      height: '20px',
-      border: 'solid',
-      borderWidth: '.5px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: theme.palette.text.primary,
-    },
   }))();
-
+  const StickNavList: any[] = [
+    {
+      label: '我的收藏',
+      value: 'collection',
+      icon: CollectSvg,
+      query: Chapter.getTotalCollectNum,
+      linkTo: '/collections',
+    },
+    {
+      label: '我的关注',
+      value: 'interest',
+      icon: QuestionSvg,
+      query: false,
+      linkTo: '/people/adam_gllue/following/',
+    },
+    {
+      label: '我的邀请',
+      value: 'collection',
+      icon: InvatisionSvg,
+      query: false,
+      linkTo: 'creator/tools/question/invited',
+    },
+    {
+      label: '站务中心',
+      value: 'service',
+      icon: ServiceSvg,
+      query: false,
+      linkTo: '/community',
+    },
+  ];
   if (isGuest(user)) {
     return <></>;
   }
   return (
     <Card classes={{root: classes.root}}>
       {StickNavList.map((config: any, index: number) => {
-        const {label, hasNum, icon, linkTo} = config;
+        const {label, query, icon, linkTo} = config;
         return (
-          <a
-            key={index}
-            className={clsx(classes.navItem, classes.hover)}
-            href={linkTo}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className={classes.iconLabel}>
-              <div className={classes.customIcon} dangerouslySetInnerHTML={{__html: icon}}></div>
-              <div>{label}</div>
-            </div>
-            {hasNum && <NumberWrapper number={6} />}
-          </a>
+          <Fragment key={index}>
+            {' '}
+            <QuickNav label={label} query={query} icon={icon} linkTo={linkTo} />
+          </Fragment>
         );
       })}
     </Card>
