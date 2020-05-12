@@ -25,8 +25,9 @@ const ChapterCard = (props: any) => {
       <CardContent>
         <div
           className={clsx(classes.content, is_show_more ? classes.contentOut : classes.contentIn)}
-          dangerouslySetInnerHTML={{__html: content}}
-        />
+        >
+          {content}
+        </div>
         {!is_show_more && (
           <IconButton
             classes={{root: clsx(classes.readMore, classes.hover)}}

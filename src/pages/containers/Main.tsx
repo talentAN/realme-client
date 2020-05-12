@@ -23,7 +23,6 @@ const MainContainer: FC = () => {
       >
         <Switch>
           <Route path={route.DRAFT} component={Drafts} />
-          {/* TODO: move path below to const*/}
           <Route path="/draft/:draftID/edit" component={DraftEditor} />
           <Route path={route.WRITE} component={DraftEditor} />
           <Route path={route.ABOUT} component={About} />

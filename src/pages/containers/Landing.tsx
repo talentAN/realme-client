@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useCallback} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Chapters from './Chapters';
 import Sticks from '../../components/Sticks';
@@ -9,37 +9,12 @@ import Footer from '../../components/stick/Footer';
 import CornerButtons from '../../components/common/CornerButtons';
 import {requestContext} from '../../contexts/request';
 import LandingStyle from './Landing.style';
-import {len_query} from '../../utils/consts';
-const useLandingReducer = (request: Function) => {
-  const [loading, setLoading] = useState(false);
-  const [chapters, setChapters]: any = useState([]);
-  const [offset, setOffset] = useState(0);
+import {useQueryListReducer} from '../../utils/hooks/QueryList';
 
-  const fetchNewChapters = useCallback(
-    async (offset: number) => {
-      const newChapters: any = await request({limit: len_query, offset});
-      if (newChapters) {
-        setChapters((chapters: any[]) => [...chapters, ...newChapters]);
-      }
-      setLoading(false);
-    },
-    [request]
-  );
-  useEffect(() => {
-    setLoading(true);
-    fetchNewChapters(offset);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offset]);
-  return {
-    loading,
-    chapters,
-    setOffset,
-  };
-};
 const LandingContainer = () => {
   const classes = makeStyles(LandingStyle)();
   const {Chapter} = useContext(requestContext);
-  const {loading, chapters, setOffset} = useLandingReducer(Chapter.queryList);
+  const {loading, list, setOffset} = useQueryListReducer(Chapter.queryList);
 
   useEffect(() => {
     const _fetch = () => {
@@ -47,7 +22,7 @@ const LandingContainer = () => {
       const scrollHeight = document.documentElement.scrollHeight;
       const scrollTop = document.documentElement.scrollTop;
       if (scrollHeight === clientHeight + scrollTop) {
-        const newOffset = chapters.length;
+        const newOffset = list.length;
         setOffset(newOffset);
       }
     };
@@ -58,12 +33,12 @@ const LandingContainer = () => {
       window.removeEventListener('mousewheel', _fetch);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapters]);
+  }, [list]);
 
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <Chapters loading={loading} chapters={chapters} actions={[]} />
+        <Chapters loading={loading} chapters={list} actions={[]} />
         <Sticks>
           <Edit />
           <AuthCenter />

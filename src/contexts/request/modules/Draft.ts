@@ -5,9 +5,10 @@ enum Type {
   Add = 'add',
   Update = 'update',
   Delete = 'delete',
-  Query = 'query',
   Publish = 'publish',
   Count = 'count',
+  QueryList = 'query_ist',
+  QueryItem = 'query_item',
 }
 const genDraftReq = (request: AxiosInstance) => {
   const url = URL.DRAFT;
@@ -23,9 +24,6 @@ const genDraftReq = (request: AxiosInstance) => {
     params = {...params, type: 'delete'};
     return await request.post(url, params);
   };
-  const query = async (params: any) => {
-    return await request.post(url, params);
-  };
   const publish = async (id: string) => {
     const res = await request.post(url, {type: Type.Publish, id});
     return res && res.data && res.data.data;
@@ -34,7 +32,17 @@ const genDraftReq = (request: AxiosInstance) => {
     const res = await request.post(url, {type: Type.Count});
     return res && res.data && res.data.data;
   };
-  return {add, update, del, query, publish, getTotalNum};
+  const queryList = async (params: any) => {
+    params = {...params, type: Type.QueryList};
+    const res = await request.post(url, params);
+    return res && res.data && res.data.data;
+  };
+  const queryItem = async (id: string) => {
+    const params = {type: Type.QueryItem, id};
+    const res = await request.post(url, params);
+    return res && res.data && res.data.data;
+  };
+  return {add, update, del, queryList, queryItem, publish, getTotalNum};
 };
 
 export default genDraftReq;

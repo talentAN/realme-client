@@ -1,12 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext, Fragment} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import {requestContext} from '../contexts/request';
-import {rootContext} from '../contexts/RootContext';
 import QuickLinks from '../components/QuickLinks';
 import DraftCard from '../components/DraftCard';
+import CornerButtons from '../components/common/CornerButtons';
 import {ChapterWidth} from '../utils/Layout';
+import {useQueryListReducer} from '../utils/hooks/QueryList';
 
 const useStyles = makeStyles({
   root: {
@@ -22,78 +21,42 @@ const useStyles = makeStyles({
   draftList: {},
 });
 
-const DEFAULT_LENGTH = 30;
-const Drafts = (props: any) => {
+const Drafts = () => {
   const classes = useStyles({});
-  const {setDiaLog} = useContext(rootContext);
-
   const {Draft} = useContext(requestContext);
-  const [drafts, setDrafts] = useState([]);
-  const [queryParams, setQueryParams] = useState({offset: 0, draftType: 'chapter'});
+  const {loading, list, setOffset} = useQueryListReducer(Draft.queryList);
 
-  const del = async (draft: any) => {
-    const {id, type} = draft;
-    Draft.del({id, draftType: type}).then((res: any) => {
-      if (res && res.status === 200) {
-        setDiaLog({
-          open: false,
-          contexts: '',
-          isCancelable: false,
-        });
-      }
-    });
-  };
-  const onDelete = (draft: any) => {
-    setDiaLog({
-      open: true,
-      contexts: '确认要删除?',
-      onConfirm: () => del(draft),
-      isCancelable: true,
-    });
-  };
   useEffect(() => {
-    const query = async () => {
-      const res = await Draft.query({
-        type: 'query',
-        offset: queryParams.offset,
-        length: DEFAULT_LENGTH,
-        draftType: queryParams.draftType,
-      });
-      const datas = res && res.data && res.data.data;
-      datas && setDrafts(datas);
+    const _fetch = () => {
+      const clientHeight = document.documentElement.clientHeight;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = document.documentElement.scrollTop;
+      if (scrollHeight === clientHeight + scrollTop) {
+        const newOffset = list.length;
+        setOffset(newOffset);
+      }
     };
-    query();
+    window.addEventListener('scroll', _fetch);
+    window.addEventListener('mousewheel', _fetch);
+    return () => {
+      window.removeEventListener('scroll', _fetch);
+      window.removeEventListener('mousewheel', _fetch);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryParams]);
+  }, [list]);
   return (
     <div className={classes.root}>
       <div className={classes.draftsContainer}>
-        <Tabs
-          value={queryParams.draftType}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={(e: any, val: any) => setQueryParams({...queryParams, offset: val})}
-        >
-          <Tab label="timeline" value="timeline" />
-          <Tab label="chapter" value="chapter" />
-        </Tabs>
-        <div className={classes.draftNav}></div>
-        <div className={classes.draftList}>
-          {drafts.length ? (
-            <>
-              {drafts.map((draft: any) => {
-                const editLink = `${props.location.pathname}/${draft.id}/edit`;
-                return (
-                  <DraftCard key={draft.id} draft={draft} editLink={editLink} onDelete={onDelete} />
-                );
-              })}
-            </>
-          ) : (
-            <></>
-          )}
-        </div>
+        {list.map((draft: any, index: number) => {
+          return (
+            <Fragment key={index}>
+              <DraftCard draft={draft} />
+            </Fragment>
+          );
+        })}
       </div>
       <QuickLinks />
+      <CornerButtons />
     </div>
   );
 };
