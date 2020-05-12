@@ -55,13 +55,13 @@ const NavList = () => {
       query: false,
       linkTo: '/people/adam_gllue/following/',
     },
-    {
-      label: '我的邀请',
-      value: 'collection',
-      icon: InvatisionSvg,
-      query: false,
-      linkTo: 'creator/tools/question/invited',
-    },
+    // {
+    //   label: '我的邀请',
+    //   value: 'collection',
+    //   icon: InvatisionSvg,
+    //   query: false,
+    //   linkTo: 'creator/tools/question/invited',
+    // },
     {
       label: '站务中心',
       value: 'service',
