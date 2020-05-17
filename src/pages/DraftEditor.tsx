@@ -3,6 +3,7 @@ import Editor from '../components/ChapterEditor';
 import {requestContext} from '../contexts/request';
 import {genID} from '../utils/Helpers';
 
+
 const DraftEditor = (props: any) => {
   const {Draft} = useContext(requestContext);
   const {history} = props;
