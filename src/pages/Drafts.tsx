@@ -1,5 +1,6 @@
 import React, {useEffect, useContext} from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {rootContext, Severity} from '../contexts/RootContext';
 import {requestContext} from '../contexts/request';
 import CornerButtons from '../components/common/CornerButtons';
 import DraftCard from '../components/DraftCard';
@@ -38,6 +39,7 @@ const useStyles = makeStyles(theme => ({
 const Drafts = () => {
   const classes = useStyles({});
   const theme = useTheme();
+  const {setSnackbar} = useContext(rootContext);
   const {Draft} = useContext(requestContext);
   const {loading, list, setList, setOffset} = useQueryListReducer(Draft.queryList);
   useEffect(() => {
@@ -61,6 +63,12 @@ const Drafts = () => {
   const onPublish = (id: string) => {
     Draft.publish(id).then((data: any) => {
       if (data && data.status === 'success') {
+        setSnackbar({
+          open: true,
+          variant: Severity.Success,
+          message: '发布成功～',
+          autoHideDuration: 3000,
+        });
         setList(list.filter((item: any) => item.id !== id));
       }
     });
@@ -69,6 +77,12 @@ const Drafts = () => {
     Draft.del(id).then((data: any) => {
       if (data && data.status === 'success') {
         setList(list.filter((item: any) => item.id !== id));
+        setSnackbar({
+          open: true,
+          variant: Severity.Success,
+          message: '删除成功～',
+          autoHideDuration: 3000,
+        });
       }
     });
   };

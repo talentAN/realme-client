@@ -75,4 +75,4 @@ export const timestampToTimePassed = (timestamp: string) => {
   return `${res}前`;
 };
 
-export const emptyFunc = (e: any) => e.preventDefault();
+export const emptyFunc = (e: any = undefined) => e && e.preventDefault();

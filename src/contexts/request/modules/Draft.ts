@@ -22,7 +22,8 @@ const genDraftReq = (request: AxiosInstance) => {
   };
   const del = async (id: string) => {
     const params = {id, type: Type.Delete};
-    return await request.post(url, params);
+    const res = await request.post(url, params);
+    return res && res.data && res.data.data;
   };
   const publish = async (id: string) => {
     const res = await request.post(url, {type: Type.Publish, id});

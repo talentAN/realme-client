@@ -2,6 +2,7 @@
  *
  * RootContext provide the follows
  * - Global Dialog
+ * - Global Snackbar
  * - Global Theme
  * - Auth
  * TODO:
@@ -27,6 +28,7 @@ const Default_Snackbar = {
   open: false,
   variant: Severity.Info,
   message: '',
+  autoHideDuration,
   onClose: emptyFunc,
 };
 const {Provider} = rootContext;
@@ -42,8 +44,13 @@ const RootProvider = ({children}: any) => {
     isCancelable: false,
   });
   const [snakebar, setSnackbar] = useState(Default_Snackbar);
-
   const [theme, setTheme] = useState(Default_Theme);
+  const onCloseSnackbar = async () => {
+    if (snakebar.onClose) {
+      await snakebar.onClose();
+    }
+    setSnackbar(Default_Snackbar);
+  };
   return (
     <Provider
       value={{user, setUser, setGuest, dialog, setDiaLog, theme, setTheme, snakebar, setSnackbar}}
@@ -55,14 +62,14 @@ const RootProvider = ({children}: any) => {
           horizontal: 'center',
         }}
         open={snakebar.open}
-        autoHideDuration={autoHideDuration}
-        onClose={snakebar.onClose}
+        autoHideDuration={snakebar.autoHideDuration || Default_Snackbar.autoHideDuration}
+        onClose={onCloseSnackbar}
       >
         <MuiAlert
           elevation={6}
           variant="filled"
           severity={snakebar.variant || Default_Snackbar.variant}
-          onClose={snakebar.onClose}
+          onClose={onCloseSnackbar}
         >
           {snakebar.message || ''}
         </MuiAlert>

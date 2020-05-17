@@ -3,7 +3,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -25,9 +24,8 @@ const ChapterCard = (props: any) => {
       <CardContent>
         <div
           className={clsx(classes.content, is_show_more ? classes.contentOut : classes.contentIn)}
-        >
-          {content}
-        </div>
+          dangerouslySetInnerHTML={{__html: content}}
+        ></div>
         {!is_show_more && (
           <IconButton
             classes={{root: clsx(classes.readMore, classes.hover)}}

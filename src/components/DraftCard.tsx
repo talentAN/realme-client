@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -19,8 +20,12 @@ const useStyles = makeStyles(theme => ({
   action: {
     color: theme.palette.grey[600],
     fontWeight: 500,
-    margin: `0 !important`,
+    margin: 0,
     padding: 0,
+    cursor: 'pointer',
+  },
+  first_action: {
+    marginLeft: theme.spacing(1),
   },
   lastModified: {
     marginLeft: `${theme.spacing(2)}px !important`,
@@ -39,10 +44,10 @@ const DraftCard = (props: any) => {
           {contentToString(content)}
         </Typography>
       </CardContent>
-      <CardActions>
-        <a href="javascript:void(0);" className={classes.action} onClick={() => onDelete(id)}>
+      <CardActions disableSpacing={true}>
+        <span className={clsx(classes.action, classes.first_action)} onClick={() => onDelete(id)}>
           删除
-        </a>
+        </span>
         <Dot />
         <a
           className={classes.action}
@@ -53,9 +58,9 @@ const DraftCard = (props: any) => {
           编辑
         </a>
         <Dot />
-        <a href="javascript:void(0);" className={classes.action} onClick={() => onPublish(id)}>
+        <span className={classes.action} onClick={() => onPublish(id)}>
           发布
-        </a>
+        </span>
         <span className={classes.lastModified}>{timestampToTimePassed(last_modified)}</span>
       </CardActions>
     </Card>
