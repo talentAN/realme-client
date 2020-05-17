@@ -28,6 +28,11 @@ const ChapterEditor = (props: any) => {
   const [_title, setTitle] = useState(title);
   const [_content, setContent] = useState(content);
   const saveTemp = useRef(debounce(Draft.update, 1000));
+
+  useEffect(() => {
+    setTitle(title);
+    setContent(content);
+  }, [title, content]);
   useEffect(() => {
     saveTemp.current({id, title: _title, content: _content});
     // eslint-disable-next-line react-hooks/exhaustive-deps

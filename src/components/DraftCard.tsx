@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Dot from './common/Dot';
 import {ChapterWidth} from '../utils/Layout';
 import {contentToString, timestampToTimePassed} from '../utils/Helpers';
-import {DRAFT} from '../utils/consts/Route';
+import {DRAFT, WRITE} from '../utils/consts/Route';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,8 +51,8 @@ const DraftCard = (props: any) => {
         <Dot />
         <a
           className={classes.action}
-          href={`${DRAFT}/${id}`}
-          target="_blank"
+          href={`${WRITE}#${id}`}
+          // target="_blank"
           rel="noopener noreferrer"
         >
           编辑
