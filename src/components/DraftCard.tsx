@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Dot from './common/Dot';
 import {ChapterWidth} from '../utils/Layout';
 import {contentToString, timestampToTimePassed} from '../utils/Helpers';
-import {DRAFT, WRITE} from '../utils/consts/Route';
+import {WRITE} from '../utils/consts/Route';
 
 const useStyles = makeStyles(theme => ({
   root: {
