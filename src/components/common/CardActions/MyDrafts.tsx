@@ -35,6 +35,7 @@ const AddChapter = () => {
         setNumDrafts(Number.parseInt(data.count));
       }
     });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <a

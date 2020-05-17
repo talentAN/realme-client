@@ -58,19 +58,21 @@ export const timestampToTimePassed = (timestamp: string) => {
   const period: number = new Date().getTime() - new Date(timestamp).getTime();
   let res;
   if (_showSeconds(period)) {
-    res = Math.floor(period / _second);
+    res = Math.floor(period / _second) + '秒';
   } else if (_showMinutes(period)) {
-    res = Math.floor(period / _min);
+    res = Math.floor(period / _min) + '分钟';
   } else if (_showHours(period)) {
-    res = Math.floor(period / _hour);
+    res = Math.floor(period / _hour) + '小时';
   } else if (_showDays(period)) {
-    res = Math.floor(period / _day);
+    res = Math.floor(period / _day) + '天';
   } else if (_showWeeks(period)) {
-    res = Math.floor(period / _week);
+    res = Math.floor(period / _week) + '周';
   } else if (_showMonths(period)) {
-    res = Math.floor(period / _month);
+    res = Math.floor(period / _month) + '月';
   } else {
-    res = Math.floor(period / _year);
+    res = Math.floor(period / _year) + '年';
   }
   return `${res}前`;
 };
+
+export const emptyFunc = (e: any) => e.preventDefault();

@@ -20,8 +20,8 @@ const genDraftReq = (request: AxiosInstance) => {
     const params = {...data, type: 'update'};
     return await request.post(url, params);
   };
-  const del = async (params: any) => {
-    params = {...params, type: 'delete'};
+  const del = async (id: string) => {
+    const params = {id, type: Type.Delete};
     return await request.post(url, params);
   };
   const publish = async (id: string) => {
@@ -35,7 +35,7 @@ const genDraftReq = (request: AxiosInstance) => {
   const queryList = async (params: any) => {
     params = {...params, type: Type.QueryList};
     const res = await request.post(url, params);
-    return res && res.data && res.data.data;
+    return res.data.data.data;
   };
   const queryItem = async (id: string) => {
     const params = {type: Type.QueryItem, id};

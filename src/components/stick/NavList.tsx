@@ -7,7 +7,7 @@ import {StickWidth} from '../../utils/Layout';
 import QuickNav from './QuickNav';
 import {genBaseStyle} from '../../utils/consts/theme';
 import {isGuest} from '../../utils/helpers/user';
-import {CollectSvg, QuestionSvg, InvatisionSvg, ServiceSvg} from '../../utils/Svg';
+import {CollectSvg, QuestionSvg, ServiceSvg} from '../../utils/Svg';
 
 const NavList = () => {
   const {user} = useContext(rootContext);

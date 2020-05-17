@@ -23,6 +23,7 @@ export const useQueryListReducer = (request: Function) => {
   return {
     loading,
     list,
+    setList,
     setOffset,
   };
 };

@@ -1,31 +1,45 @@
-import React, {useEffect, useContext, Fragment} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React, {useEffect, useContext} from 'react';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import {requestContext} from '../contexts/request';
-import QuickLinks from '../components/QuickLinks';
-import DraftCard from '../components/DraftCard';
 import CornerButtons from '../components/common/CornerButtons';
-import {ChapterWidth} from '../utils/Layout';
+import DraftCard from '../components/DraftCard';
+import {LandingContainerMinWidth, ChapterWidth} from '../utils/Layout';
 import {useQueryListReducer} from '../utils/hooks/QueryList';
+import Spinner from '../components/common/Spinner';
+import Sticks from '../components/Sticks';
+import Edit from '../components/stick/Edit';
+import AuthCenter from '../components/stick/AuthCenter';
+import NavList from '../components/stick/NavList';
+import Footer from '../components/stick/Footer';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    maxWidth: '1200px',
+    minWidth: LandingContainerMinWidth,
+    padding: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: theme.palette.background.paper,
+  },
+  content: {
+    flexGrow: 1,
     display: 'flex',
     justifyContent: 'space-between',
+    maxWidth: LandingContainerMinWidth,
   },
-  draftsContainer: {
-    width: ChapterWidth,
+  drafts: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: ChapterWidth,
   },
-  draftNav: {},
-  draftList: {},
-});
+}));
 
 const Drafts = () => {
   const classes = useStyles({});
+  const theme = useTheme();
   const {Draft} = useContext(requestContext);
-  const {loading, list, setOffset} = useQueryListReducer(Draft.queryList);
-
+  const {loading, list, setList, setOffset} = useQueryListReducer(Draft.queryList);
   useEffect(() => {
     const _fetch = () => {
       const clientHeight = document.documentElement.clientHeight;
@@ -44,18 +58,41 @@ const Drafts = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list]);
+  const onPublish = (id: string) => {
+    Draft.publish(id).then((data: any) => {
+      if (data && data.status === 'success') {
+        setList(list.filter((item: any) => item.id !== id));
+      }
+    });
+  };
+  const onDelete = (id: string) => {
+    Draft.del(id).then((data: any) => {
+      if (data && data.status === 'success') {
+        setList(list.filter((item: any) => item.id !== id));
+      }
+    });
+  };
   return (
     <div className={classes.root}>
-      <div className={classes.draftsContainer}>
-        {list.map((draft: any, index: number) => {
-          return (
-            <Fragment key={index}>
-              <DraftCard draft={draft} />
-            </Fragment>
-          );
-        })}
+      <div className={classes.content}>
+        <div className={classes.drafts}>
+          {list.map((draft: any, index: number) => {
+            return (
+              <div key={index} style={{marginBottom: theme.spacing(1)}}>
+                <DraftCard draft={draft} onPublish={onPublish} onDelete={onDelete} />
+              </div>
+            );
+          })}
+          {loading && <Spinner />}
+        </div>
+
+        <Sticks>
+          <Edit />
+          <AuthCenter />
+          <NavList />
+          <Footer />
+        </Sticks>
       </div>
-      <QuickLinks />
       <CornerButtons />
     </div>
   );

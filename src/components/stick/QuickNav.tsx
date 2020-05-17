@@ -3,7 +3,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {genBaseStyle} from '../../utils/consts/theme';
 import NumberWrapper from '../common/NumberWrapper';
-// TODO: fuck, 所有的collect， like都要修改数据表了
 const QuickNav = (props: any) => {
   const classes = makeStyles(theme => ({
     ...genBaseStyle(theme),
@@ -34,6 +33,7 @@ const QuickNav = (props: any) => {
         setCount(Number.parseInt(data.count));
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
