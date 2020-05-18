@@ -1,4 +1,12 @@
-const endpoint = 'http://localhost:8000';
+declare global {
+  interface Window {
+    _env_: any;
+  }
+}
+let endpoint = 'http://localhost:8000';
+if (window._env_) {
+  endpoint = window._env_.API_URL;
+}
 
 const prefix = [endpoint].join('');
 const genURL = (short: string) => `${prefix}/${short}`;
