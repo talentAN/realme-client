@@ -2,7 +2,6 @@ import path from 'path';
 import webpack, {HashedModuleIdsPlugin} from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import {CleanWebpackPlugin} from 'clean-webpack-plugin';
-import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 const config: webpack.Configuration = {
   entry: {
     main: path.resolve(__dirname, 'src/index.tsx'),
@@ -101,7 +100,6 @@ const config: webpack.Configuration = {
       title: 'liflib',
       template: 'public/index.html',
     }),
-    new BundleAnalyzerPlugin(),
     new HashedModuleIdsPlugin(),
   ],
 };
